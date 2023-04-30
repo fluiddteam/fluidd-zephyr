@@ -408,7 +408,7 @@ int zsock_getaddrinfo(const char *host, const char *service,
 	int ret = DNS_EAI_FAIL;
 
 #if defined(ANY_RESOLVER)
-	*res = calloc(AI_ARR_MAX, sizeof(struct zsock_addrinfo));
+	*res = k_calloc(AI_ARR_MAX, sizeof(struct zsock_addrinfo));
 	if (!(*res)) {
 		return DNS_EAI_MEMORY;
 	}
@@ -429,7 +429,7 @@ int zsock_getaddrinfo(const char *host, const char *service,
 
 #if defined(ANY_RESOLVER)
 	if (ret) {
-		free(*res);
+		k_free(*res);
 		*res = NULL;
 	}
 #endif
@@ -443,7 +443,7 @@ void zsock_freeaddrinfo(struct zsock_addrinfo *ai)
 		return socket_offload_freeaddrinfo(ai);
 	}
 
-	free(ai);
+	k_free(ai);
 }
 
 #define ERR(e) case DNS_ ## e: return #e
